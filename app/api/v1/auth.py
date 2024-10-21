@@ -67,7 +67,7 @@ async def read_user(db: db_dependency, user: user_dependency):
     return users.get_user(db, user_id)
 
 
-@router.post("/password/", status_code=status.HTTP_204_NO_CONTENT)
+@router.post("/password", status_code=status.HTTP_204_NO_CONTENT)
 async def reset_password(
     db: db_dependency, user: user_dependency, user_verification: UserVerification
 ):
