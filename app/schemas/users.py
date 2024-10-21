@@ -20,12 +20,3 @@ class UserDisplay(BaseModel):
 class UserVerification(BaseModel):
     password: str
     new_password: str = Field(min_length=6)
-
-
-class OTPRequest(BaseModel):
-    phone_number: str = constr(regex=r"^\+\d{10,15}$")
-
-
-class OTPVerification(BaseModel):
-    phone_number: str = constr(regex=r"^\+\d{10,15}$")
-    otp: int

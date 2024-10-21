@@ -5,7 +5,6 @@ from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordRequestForm
 
-from app.core import twilio_core
 from app.core.security import (
     autenticate_user,
     create_access_token,
@@ -16,7 +15,7 @@ from app.core.security import (
 from app.db.base import get_db
 from app.db.crud import users
 from app.db.models.users import Users
-from app.schemas.users import CreateUserRequest, OTPRequest, OTPVerification
+from app.schemas.users import CreateUserRequest
 
 
 router = APIRouter(prefix="/api/v1/auth", tags=["Auth"])
@@ -87,13 +86,3 @@ async def reset_password(
     user_model.hashed_password = hash_password(user_verification.new_password)
     db.add(user_model)
     db.commit()
-
-
-@router.post("/send-otp/")
-async def send_otp_endpoint(request: OTPRequest):
-    return twilio_core.send_otp_endpoint(request)
-
-
-@router.post("/verify-otp/")
-async def verify_otp(request: OTPVerification):
-    return twilio_core.verify_otp(request)
