@@ -15,7 +15,7 @@ from app.core.security import (
 from app.db.base import get_db
 from app.db.crud import users
 from app.db.models.users import Users
-from app.schemas.users import CreateUserRequest
+from app.schemas.users import CreateUserRequest, UserVerification
 
 
 router = APIRouter(prefix="/api/v1/auth", tags=["Auth"])
