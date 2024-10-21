@@ -6,6 +6,8 @@ from .db.base import Base, engine
 
 app = FastAPI()
 
+
+
 Base.metadata.create_all(bind=engine)
 
 

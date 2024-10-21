@@ -6,13 +6,16 @@ from jose import JWTError, jwt
 from fastapi import Depends, HTTPException, status
 
 from app.db.models.users import Users
+from app.core import config
 
+
+settings = config.Settings()
 
 bcryt_content = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl="api/v1/auth/token")
 
-SECRET_KEY = "2822ff9a51c24b3fe3bb962b645bc6e7c19ed2d14aef261a7115c3c4df3d30c3"
-ALGORITHM = "HS256"
+SECRET_KEY = settings.SECRET_KEY
+ALGORITHM = settings.ALGORITHM
 
 
 def hash_password(plain_password: str):
