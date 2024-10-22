@@ -56,27 +56,27 @@ async def create_user(user: CreateUserRequest, db: db_dependency):
 
 
 @router.get("/me")
-async def read_user(db: db_dependency, user: user_dependency):
-    if user is None:
+async def read_user(db: db_dependency, current_user: user_dependency):
+    if current_user is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Autentication Failed"
         )
 
-    user_id = int(user.get("id"))
+    user_id = int(current_user.get("id"))
 
     return users.get_user(db, user_id)
 
 
 @router.post("/password", status_code=status.HTTP_204_NO_CONTENT)
 async def reset_password(
-    db: db_dependency, user: user_dependency, user_verification: UserVerification
+    db: db_dependency, current_user: user_dependency, user_verification: UserVerification
 ):
-    if user is None:
+    if current_user is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Autentication Failed"
         )
 
-    user_model = db.query(Users).filter(Users.id == user.get("id")).first()
+    user_model = db.query(Users).filter(Users.id == current_user.get("id")).first()
 
     if not verify_password(user_verification.password, user_model.hashed_password):
         raise HTTPException(

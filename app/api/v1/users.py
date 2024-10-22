@@ -2,6 +2,7 @@ from typing import Annotated, List
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
+from app.core.authorizations import authorize
 from app.core.security import get_current_user
 from app.db.base import get_db
 from app.schemas.users import UserDisplay
@@ -17,10 +18,12 @@ user_dependency = Annotated[dict, Depends(get_current_user)]
 
 
 @router.get("/", response_model=List[UserDisplay])
-async def get_all_users(db: db_dependency, user: user_dependency):
+@authorize(role=["admin"])
+async def get_all_users(db: db_dependency, current_user: user_dependency):
     return users.read_users(db)
 
 
 @router.get("/{user_id}", response_model=UserDisplay)
-async def get_user(db: db_dependency, user_id: int, user: user_dependency):
+@authorize(role=["admin"])
+async def get_user(db: db_dependency, user_id: int, current_user: user_dependency):
     return users.get_user(db, user_id)
