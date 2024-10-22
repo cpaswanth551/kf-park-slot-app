@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 import datetime
-from app.db.models.parks import Reservations, Slots
+from app.db.models.parks import Places, Reservations, Slots
 from app.schemas.parks import CreateReservationRequest
 
 
@@ -26,6 +26,11 @@ def create_reservations(
     return create_reserveration_model
 
 
-
-def get_reservation(db:Session):
-    
+def get_reservation(db: Session, user_id: int):
+    return (
+        db.query(Reservations)
+        .join(Slots)
+        .join(Places)
+        .filter(Reservations.user_id == user_id)
+        .all()
+    )

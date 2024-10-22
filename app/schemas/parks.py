@@ -46,3 +46,9 @@ class CreateReservationRequest(BaseModel):
     phone_number: str
     slot_id: int
     user_id: int
+
+
+class ReservationDisplay(BaseModel):
+    time_reserved: str
+    phone_number: str
+    slot: SlotDisplay
