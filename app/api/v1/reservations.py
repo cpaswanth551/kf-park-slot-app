@@ -30,6 +30,7 @@ async def read_reservations(db: db_dependency, current_user: user_dependency):
         response.append(
             {
                 "time_reserved": reservation.time_reserved,
+                "reservation_time": reservation.reservation_time,
                 "phone_number": reservation.phone_number,
                 "slot": {
                     "id": reservation.slot.id,

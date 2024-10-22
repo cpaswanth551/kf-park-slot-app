@@ -51,4 +51,5 @@ class CreateReservationRequest(BaseModel):
 class ReservationDisplay(BaseModel):
     time_reserved: str
     phone_number: str
+    reservation_time: datetime
     slot: SlotDisplay
