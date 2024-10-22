@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .api.v1 import users, auth, parks
+from .api.v1 import users, auth, parks, reservations
 from .db.base import Base, engine
 
 
@@ -14,6 +14,7 @@ Base.metadata.create_all(bind=engine)
 app.include_router(auth.router)
 app.include_router(users.router)
 app.include_router(parks.router)
+app.include_router(reservations.router)
 
 
 @app.get("/health-check")

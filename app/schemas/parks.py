@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 from pydantic import BaseModel, Field, constr
 
@@ -33,7 +34,15 @@ class PlaceSlot(BaseModel):
 
 
 class SlotDisplay(BaseModel):
+    id: int
     slot_number: str
     price: str
 
     place: PlaceSlot
+
+
+class CreateReservationRequest(BaseModel):
+    time_reserved: str
+    phone_number: str
+    slot_id: int
+    user_id: int

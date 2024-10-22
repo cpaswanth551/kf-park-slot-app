@@ -44,16 +44,10 @@ class Reservations(Base):
     __tablename__ = "reservations"
 
     id = Column(Integer, primary_key=True, index=True)
-
     reservation_time = Column(DateTime, default=func.now())
-    car_number = Column(String, default="")
-    car_details = Column(String, default="")
-    payment_id = Column(String, default="")
     time_reserved = Column(String, default="1")
     phone_number = Column(String, default="0000000000")
     status = Column(String, default="Pending")
-    payment_mode = Column(String, default="COH")
-
     slot_id = Column(Integer, ForeignKey("slots.id"))
     user_id = Column(Integer, ForeignKey("users.id"))
 

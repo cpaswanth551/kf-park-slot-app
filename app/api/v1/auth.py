@@ -24,7 +24,7 @@ router = APIRouter(prefix="/api/v1/auth", tags=["Auth"])
 db_dependency = Annotated[Session, Depends(get_db)]
 user_dependency = Annotated[dict, Depends(get_current_user)]
 
-otp_storage = {}
+
 
 
 class Token(BaseModel):

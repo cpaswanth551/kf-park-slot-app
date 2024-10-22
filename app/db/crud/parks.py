@@ -22,7 +22,7 @@ def create_places(db: Session, create_place_request: CreatePlaceRequest):
 
     slots = [
         Slots(
-            slot_number=f"{create_place_model.name[:3]}:{create_place_model.id}--{i + 1}",
+            slot_number=f"{create_place_model.name[:3]}{create_place_model.id}0{i + 1}",
             price=10.0,
             is_booked=False,
             place_id=create_place_model.id,
@@ -78,6 +78,7 @@ def get_slot(db: Session, slot_number: str):
         return HTTPException(detail="slot not found", status_code=401)
 
     return {
+        "id": slot.id,
         "slot_number": slot.slot_number,
         "price": str(slot.price),
         "place": slot.place,
