@@ -1,13 +1,21 @@
 import pytest
 from fastapi import status
+from app.core.security import get_current_user
 from app.db.base import get_db
 from app.db.models.users import Users
 from app.main import app
 from app.schemas.users import CreateUserRequest
-from test.utils import override_get_db, client, test_user, TestingSessionLocal
+from test.utils import (
+    override_get_current_user,
+    override_get_db,
+    client,
+    test_user,
+    TestingSessionLocal,
+)
 
 
 app.dependency_overrides[get_db] = override_get_db
+app.dependency_overrides[get_current_user] = override_get_current_user
 
 
 def test_login_for_access_token(test_user):
@@ -49,6 +57,13 @@ def test_create_user(test_user):
     assert model.username == user_data.get("username")
 
 
+def test_read_user_autenticated(test_user):
+    response = client.get("/api/v1/auth/me")
+
+    response.status_code == 200
+    response.json()["username"] == "appu"
+
+
 def test_reset_password(test_user):
     response = client.post(
         "/api/v1/auth/password",
@@ -56,3 +71,12 @@ def test_reset_password(test_user):
     )
 
     assert response.status_code == status.HTTP_204_NO_CONTENT
+
+
+def test_reset_password_wrongpassword(test_user):
+    response = client.post(
+        "/api/v1/auth/password",
+        json={"password": "wrongpassword", "new_password": "newpassord"},
+    )
+
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
