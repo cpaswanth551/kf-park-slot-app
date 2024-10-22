@@ -1,4 +1,5 @@
 from sqlalchemy import Boolean, Column, Integer, String
+from sqlalchemy.orm import relationship
 from ..base import Base
 
 
@@ -15,3 +16,7 @@ class Users(Base):
     phone_number = Column(String)
     role = Column(String)
     is_active = Column(Boolean)
+
+
+    reservations = relationship("Reservations", back_populates="user")
+

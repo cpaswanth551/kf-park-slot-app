@@ -18,12 +18,12 @@ user_dependency = Annotated[dict, Depends(get_current_user)]
 
 
 @router.get("/", response_model=List[UserDisplay])
-@authorize(role=["admin"])
+@authorize(role=["admin","superadmin"])
 async def get_all_users(db: db_dependency, current_user: user_dependency):
     return users.read_users(db)
 
 
 @router.get("/{user_id}", response_model=UserDisplay)
-@authorize(role=["admin"])
+@authorize(role=["admin","superadmin"])
 async def get_user(db: db_dependency, user_id: int, current_user: user_dependency):
     return users.get_user(db, user_id)

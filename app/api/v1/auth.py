@@ -30,12 +30,14 @@ otp_storage = {}
 class Token(BaseModel):
     access_token: str
     token_type: str
+    data: dict
 
 
 @router.post("/token", response_model=Token)
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: db_dependency
 ):
+    print(f"Received username: {form_data.username}, password: {form_data.password}")
     user = autenticate_user(form_data.username, form_data.password, db)
 
     if not user:
@@ -47,7 +49,11 @@ async def login_for_access_token(
         user.username, user.id, role=user.role, expires_delta=timedelta(minutes=29)
     )
 
-    return {"access_token": token, "token_type": "bearer"}
+    return {
+        "access_token": token,
+        "token_type": "bearer",
+        "data": {"username": user.username, "id": user.id},
+    }
 
 
 @router.post("/")
@@ -69,7 +75,9 @@ async def read_user(db: db_dependency, current_user: user_dependency):
 
 @router.post("/password", status_code=status.HTTP_204_NO_CONTENT)
 async def reset_password(
-    db: db_dependency, current_user: user_dependency, user_verification: UserVerification
+    db: db_dependency,
+    current_user: user_dependency,
+    user_verification: UserVerification,
 ):
     if current_user is None:
         raise HTTPException(
