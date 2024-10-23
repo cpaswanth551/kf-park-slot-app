@@ -22,7 +22,7 @@ def headCheck():
     return {"message": "all is well.."}
 
 
-origins = ["http://localhost:5173"]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
