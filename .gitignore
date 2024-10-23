@@ -9,9 +9,7 @@ venv/
 env/
 .env
 
-# Database files
-*.sqlite3
-*.db
+
 
 # Logs
 logs/
