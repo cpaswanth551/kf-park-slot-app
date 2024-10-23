@@ -56,7 +56,7 @@ async def login_for_access_token(
     }
 
 
-@router.post("/")
+@router.post("/create")
 async def create_user(user: CreateUserRequest, db: db_dependency):
     return users.create_user(db, user)
 
