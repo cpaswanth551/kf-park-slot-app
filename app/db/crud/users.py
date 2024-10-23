@@ -31,7 +31,7 @@ def create_user(db: Session, create_user_request: CreateUserRequest):
     except Exception as e:
         db.rollback()
         print(f"Unexpected error: {e}")
-        raise HTTPException(status_code=500, detail="Internal Server Error")
+        raise HTTPException(status_code=500, detail="user is not created")
 
 
 def read_users(db: Session):
